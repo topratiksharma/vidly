@@ -46,18 +46,19 @@ class Movies extends Component {
     this.setState({ selectedGenere: genere, currentPage: 1 });
   };
 
+  getPageData = () => {
+    const { pageSize, currentPage, movies: allMovies, selectedGenere, sortColumn } = this.state;
+    const filteredMovies = selectedGenere && selectedGenere._id ? allMovies.filter((m) => m.genere._id === selectedGenere._id) : allMovies;
+    const sortedMovies = _.orderBy(filteredMovies, [sortColumn.path], [sortColumn.order]);
+    const movies = paginate(sortedMovies, currentPage, pageSize);
+    return { totalCount: filteredMovies.length, data: movies };
+  };
+
   render() {
     const { length: count } = this.state.movies;
-
-    const { pageSize, currentPage, movies: allMovies, selectedGenere, sortColumn } = this.state;
-
+    const { pageSize, currentPage, sortColumn } = this.state;
     if (count === 0) return <p>No Movies Present in the database</p>;
-
-    const filteredMovies = selectedGenere && selectedGenere._id ? allMovies.filter((m) => m.genere._id === selectedGenere._id) : allMovies;
-
-    const sortedMovies = _.orderBy(filteredMovies, [sortColumn.path], [sortColumn.order]);
-
-    const movies = paginate(sortedMovies, currentPage, pageSize);
+    const { totalCount, data: movies } = this.getPageData();
 
     return (
       <div className='row'>
@@ -65,9 +66,9 @@ class Movies extends Component {
           <ListGroup items={this.state.generes} selectedItem={this.state.selectedGenere} onItemSelect={this.handleGenereSelect} />
         </div>
         <div className='col'>
-          Showing: <span className='badge badge-success'>{filteredMovies.length}</span> movies <i className='fa fa-film' aria-hidden='true'></i> in the database
+          Showing: <span className='badge badge-success'>{totalCount}</span> movies <i className='fa fa-film' aria-hidden='true'></i> in the database
           <MoviesTable movies={movies} onLike={this.handleLike} onDelete={this.handleDelete} sortColumn={sortColumn} onSort={this.handleSort} />
-          <Pagination currentPage={currentPage} itemsCount={filteredMovies.length} onPageChange={this.handlePageChange} pageSize={pageSize} />
+          <Pagination currentPage={currentPage} itemsCount={totalCount} onPageChange={this.handlePageChange} pageSize={pageSize} />
         </div>
       </div>
     );
