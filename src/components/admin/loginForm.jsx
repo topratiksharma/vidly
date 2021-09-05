@@ -1,6 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
-import Form from "./common/form";
+import Form from '../common/form-controls/form';
 
 class LoginForm extends Form {
   // username = React.createRef();
