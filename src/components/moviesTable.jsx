@@ -6,7 +6,7 @@ import Table from './common/Table';
 class MoviesTable extends Component {
   columns = [
     { path: 'title', label: 'Title', content: (movie) => <Link to={`/movies/${movie._id}`}>{movie.title}</Link> },
-    { path: 'genere.name', label: 'Genre' },
+    { path: 'genre.name', label: 'Genre' },
     { path: 'stock', label: 'Stock' },
     { path: 'rate', label: 'Rate' },
     { key: 'like', content: (movie) => <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} /> },

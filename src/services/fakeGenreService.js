@@ -1,4 +1,4 @@
-const generes = [
+const genres = [
     { _id: "g_123", name: "Action" },
     { _id: "g_124", name: "Comedy" },
     { _id: "g_125", name: "SciFi" },
@@ -7,9 +7,9 @@ const generes = [
 
 
 export function getGeners() {
-    return generes.filter(g => g);
+    return genres.filter(g => g);
 }
 
-export function getGenere(id) {
-    return generes.find(m => m._id === id);
+export function getGenre(id) {
+    return genres.find(m => m._id === id);
 }
