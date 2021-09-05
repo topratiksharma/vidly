@@ -7,6 +7,7 @@ import { getGeners } from "../../services/fakeGenreService";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import SearchBox from "./../common/searchBox";
 
 class Movies extends Component {
   state = {
@@ -44,7 +45,11 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 });
+  };
+
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
   getPageData = () => {
@@ -54,11 +59,21 @@ class Movies extends Component {
       movies: allMovies,
       selectedGenre,
       sortColumn,
+      searchQuery,
     } = this.state;
-    const filteredMovies =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
+
+    let filteredMovies = allMovies;
+
+    if (searchQuery) {
+      filteredMovies = allMovies.filter((m) =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    } else if (selectedGenre && selectedGenre._id) {
+      filteredMovies = allMovies.filter(
+        (m) => m.genre._id === selectedGenre._id
+      );
+    }
+
     const sortedMovies = _.orderBy(
       filteredMovies,
       [sortColumn.path],
@@ -70,7 +85,7 @@ class Movies extends Component {
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     if (count === 0) return <p>No Movies Present in the database</p>;
     const { totalCount, data: movies } = this.getPageData();
 
@@ -91,6 +106,7 @@ class Movies extends Component {
           >
             New Movie
           </Link>
+          <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <p>
             Showing: <span className="badge badge-success">{totalCount}</span>
             movies <i className="fa fa-film" aria-hidden="true"></i> in the
