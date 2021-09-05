@@ -1,13 +1,13 @@
+import _ from "lodash";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { getGeners } from "../../services/fakeGenreService";
 import { getMovies } from "../../services/fakeMovieService";
+import { paginate } from "../../utils/paginate";
 import ListGroup from "../common/listGroup";
 import Pagination from "../common/pagination";
-import { paginate } from "../../utils/paginate";
-import { getGeners } from "../../services/fakeGenreService";
-import MoviesTable from "./moviesTable";
-import _ from "lodash";
-import { Link } from "react-router-dom";
 import SearchBox from "./../common/searchBox";
+import MoviesTable from "./moviesTable";
 
 class Movies extends Component {
   state = {
