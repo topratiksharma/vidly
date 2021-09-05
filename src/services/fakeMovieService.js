@@ -85,7 +85,7 @@ export function getMovie(id) {
 }
 
 export function saveMovie(movie) {
-    let movieInDb = movies.find(m => m._id === movie.id);
+    // let movieInDb = movies.find(m => m._id === movie.id);
     // movieInDb.name=movie.name, 
     // movieInDb.genere=movie., 
     // movieInDb.stock=movie.stock, 
