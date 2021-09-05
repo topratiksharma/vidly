@@ -8,7 +8,7 @@ const movies = [
         title: "Gone Girl",
         genre: { _id: "g_123", name: "Action" },
         stock: 1,
-        rate: 5.5,
+        rate: 5.6,
         publishDate: "2018-01-03T19:04.25.809Z"
     },
     {
